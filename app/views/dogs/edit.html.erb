@@ -1,2 +1,47 @@
-<h1>Edit Your Dog</h1>
-<%= render partial: 'form' %>
+<style>
+img.responsive {
+  width: 100%;
+}
+</style>
+<script>
+    $(function(){
+        $('.main-carousel').flickity({
+            // options
+            contain: false,
+            autoPlay: 1500,
+            adaptiveHeight: true
+        })
+    })   
+
+    function like(id) {
+        $.ajax({ url: `dogs/like`,
+            type: 'POST',
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+            data: { id : id},
+            success: function(response) {
+                window.location.href = window.location.href
+            }
+        })        
+    }
+</script>
+
+<section>
+  <div class="ui grid">
+    <div class="six wide column">
+      <% if @dog.images.size > 1 %>
+        <div class="main-carousel">
+          <% @dog.images.each do |image| %>
+            <div class="carousel-cell">
+              <%= image_tag url_for(image), alt: "Photo of #{@dog.name}" %>
+            </div>
+          <% end %>
+        </div>    
+      <% else %>
+        <%= image_tag url_for(@dog.images.first), alt: "Photo of #{@dog.name}", class: "responsive" %>
+      <% end %>
+    </div>
+    <div class="ten wide column">
+      <%= render partial: 'form' %>
+    </div>
+  </div>
+</section>

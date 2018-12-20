@@ -1,13 +1,57 @@
+<style>
+img.responsive {
+  width: 100%;
+}
+</style>
+<script>
+    $(function(){
+        $('.main-carousel').flickity({
+            // options
+            contain: false,
+            autoPlay: 1500
+        })
+    })   
+
+    function like(id) {
+        $.ajax({ url: `dogs/like`,
+            type: 'POST',
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+            data: { id : id},
+            success: function(response) {
+                window.location.href = window.location.href
+            }
+        })        
+    }
+</script>
+
 <section>
-  <h2><%= @dog.name %></h2>
+  <div class="ui grid">
+    <div class="six wide column">
+      <% if @dog.images.size > 1 %>
+        <div class="main-carousel">
+          <% @dog.images.each do |image| %>
+            <div class="carousel-cell">
+              <%= image_tag url_for(image), alt: "Photo of #{@dog.name}" %>
+            </div>
+          <% end %>
+        </div>    
+      <% else %>
+        <%= image_tag url_for(@dog.images.first), alt: "Photo of #{@dog.name}", class: "responsive" %>
+      <% end %>
+    </div>
+    <div class="ten wide column">
+      <h2><%= @dog.name %></h2>  
+      <div class="ui segment">
+        <p><%= @dog.description ||= "No Description Available :(" %></p>
+      </div>
 
-  <% @dog.images.each do |image| %>
-    <%= image_tag url_for(image), alt: "Photo of #{@dog.name}" %>
-  <% end %>
-
-  <p><%= @dog.description %></p>
-
-  <%= link_to "Edit #{@dog.name}'s Profile", edit_dog_path %>
-  <br>
-  <%= link_to "Delete #{@dog.name}'s Profile", dog_path, method: :delete, data: { confirm: 'Are you sure?' } %>
+      <% if @editable %>
+        <div class="two ui buttons">
+          <%= link_to "Edit #{@dog.name}'s Profile", edit_dog_path, class: "ui button" %>
+          <br>
+          <%= link_to "Delete #{@dog.name}'s Profile", dog_path, class: "ui button red", method: :delete, data: { confirm: 'Are you sure?' } %>
+        </div>
+      <% end %>      
+    </div>
+  </div>
 </section>

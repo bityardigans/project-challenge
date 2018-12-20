@@ -1,6 +1,40 @@
-<a href="<%= url_for(dog) %>">
-  <article>
-    <h2 class="dog-name"><%= dog.name %></h2>
+<div class="card">
+  <% if dog.trending == 1 %>
+    <a class="ui red right corner label">
+      <i class="fire icon"></i>
+    </a>
+  <% end %>
+  <div class="blurring dimmable image">
+    <div class="ui dimmer">
+      <div class="content">
+        <div class="center">
+          <a href="<%= url_for(dog) %>" class="ui inverted button">View Details</a>
+        </div>
+      </div>
+    </div>
     <%= image_tag url_for(dog.images.first), class: "dog-photo", alt: "Photo of #{dog.name}" %>
-  </article>
-</a>
+  </div>
+  <div class="content">
+    <a class="header dog-name" href="<%= url_for(dog) %>"><%= dog.name %></a>      
+  <% if current_user && current_user.id == dog.user_id %>
+    <a class="ui orange right ribbon label">My Dog!</a>
+  <% end %>    
+  </div>  
+  <div class="extra content">      
+    <% if !current_user || current_user.id != dog.user_id %>
+      <div class="ui left labeled button" tabindex="0">
+        <a class="ui basic right pointing label">        
+          <%= dog.likes_count ||= 0%>
+        </a>
+        <div class="ui button" onclick="like(<%= dog.id%>)">
+          <i class="heart icon"></i> Like
+        </div>
+      </div>    
+    <% else %>
+      <span class="left floated like">
+        <i class="like icon"></i>
+        <%= dog.likes_count ||= 0%>
+      </span>  
+    <% end %>    
+  </div>  
+</div>

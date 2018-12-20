@@ -1,29 +1,45 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>DogProfile</title>
+    <title>Dog Profile App</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbolinks-track": "reload" %>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" 
+      integrity="sha256-9mbkOfVho3ZPXfM7W8sV2SndrGDuh7wuyLjtsWeTI1Q=" crossorigin="anonymous" />    
+
+    <link rel="stylesheet" href="//unpkg.com/flickity@2/dist/flickity.min.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.2/jquery.min.js" 
+      integrity="sha256-ZMUdl0o0Lp3z7VSAgqSteBbUB7jDa2c1bd6eSHuBnL4=" crossorigin="anonymous"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.5/angular.min.js" 
+      integrity="sha256-QRJz3b0/ZZC4ilKmBRRjY0MgnVhQ+RR1tpWLYaRRjSo=" crossorigin="anonymous"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" 
+      integrity="sha256-t8GepnyPmw9t+foMh3mKNvcorqNHamSKtKRxxpUEgFI=" crossorigin="anonymous"></script>
+        
+    <script src="//unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>    
   </head>
 
   <body>
     <div id="layout">
-      <header>
-        <h1><%= link_to 'Dog Profile Demo', root_path %></h1>
-        <div class="actions">
+      <div class="ui menu">
+          <div class="header item">
+              <a href="/">Dog Profile Demo</a>
+          </div>
           <% if current_user %>
-            <%= link_to 'Add your dog', new_dog_path %>
-            <%= link_to 'Sign out', destroy_user_session_path, method: :delete %>
+            <%= link_to 'Add your dog', new_dog_path, class:"item" %>
+            <%= link_to 'Sign out', destroy_user_session_path, method: :delete, class:"item"  %>
           <% else %>
-            <%= link_to 'Sign in', new_user_session_path %>
-            <%= link_to 'Sign up', new_user_registration_path %>
-          <% end %>
-        </div>
-      </header>
-      <div id="main">
+            <%= link_to 'Sign in', new_user_session_path, class:"item"  %>
+            <%= link_to 'Sign up', new_user_registration_path, class:"item"  %>
+          <% end %>                   
+      </div>    
+      <div id="main" class="ui container">
         <div class="notifications">
           <p class="notice"><%= notice %></p>
           <p class="alert"><%= alert %></p>

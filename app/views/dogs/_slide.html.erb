@@ -1,0 +1,7 @@
+<div class="carousel-cell" style="background:url('<%= url_for(dog.images.first)%>'); background-size:cover; background-position:center; background-repeat:no-repeat; height:500px; width:100%;">
+</div>
+
+<% if (dog_iteration.index-1) % 2 == 0 %>
+  <div class="carousel-cell" style="background:url('<%= image_url "ad.jpg" %>'); background-size:cover; background-position:center; background-repeat:no-repeat; height:500px; width:100%;">    
+  </div>
+<% end %>

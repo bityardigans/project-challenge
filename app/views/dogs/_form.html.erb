@@ -1,11 +1,7 @@
-<%= simple_form_for @dog do |f| %>
+<%= simple_form_for @dog, :html=> { class: 'ui form' }  do |f| %>
   <%= f.input :name %>
   <%= f.input :description, as: :text %>
-  <%= f.input :image, as: :file %>
-
-  <% if @dog.images.any? %>
-    <%= image_tag @dog.images.first %>
-  <% end %>
-
-  <%= f.button :submit %>
+  <%= f.input :image, as: :file, :class => 'ui button' %>
+  
+  <%= f.button :submit, :class => 'ui button' %>
 <% end %>

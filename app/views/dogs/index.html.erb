@@ -1,1 +1,71 @@
-<%= render partial: 'thumbnail', collection: @dogs, as: :dog %>
+<style>
+    .main-carousel {
+        margin-bottom:45px;
+    }    
+</style>
+
+<script>
+    $(function(){
+        $('.special.cards .image').dimmer({
+            on: 'hover'
+        })
+
+        $('.main-carousel').flickity({
+            // options
+            contain: false
+        })
+
+        $('#sort_by').change(function(){
+            window.location.href = 
+                window.location.href.split('?').shift() + '?order_by=' + $(this).val()
+        })
+    })   
+
+    function like(id) {
+        $.ajax({ url: `dogs/like.json`,
+            type: 'POST',
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+            data: { id : id},
+            success: function(response) {
+                window.location.href = window.location.href
+            }
+        })        
+    }
+</script>
+
+<div class="ui segments">
+    <div class="ui segment">
+        <div class="main-carousel">
+            <%= render partial: 'slide', collection: @slides, as: :dog %>
+        </div>
+    </div>
+
+    <div class="ui segment secondary">
+        <h2 class="ui center aligned icon header">
+        <i class="circular users icon"></i>
+            <%= @total_dogs %> Total Dogs
+        </h2>            
+        <div class="ui divider"></div> 
+        <div class="ui special three stackable cards">
+            <%= render partial: 'thumbnail', collection: @dogs, as: :dog %>
+        </div>
+        <div class="ui divider"></div>
+        <div class="ui pagination menu fluid">
+            <% (1..@total_pages).each do |i| %>
+                <a class="<%= @page == i ? 'active' : '' %> item" href="/?page=<%= i%>&order_by=<%= params[:order_by]%>">
+                    <%= i%>
+                </a>
+            <% end %>
+            <div class="right menu">
+                <div class="item">
+                    <select class="ui dropdown" id="sort_by">
+                        <option <%= params[:order_by] == '' ? "selected" : ""%> value="">-Select Option-</option>
+                        <option <%= params[:order_by] == 'name' ? "selected" : ""%> value="name">Order By Name</option>
+                        <option <%= params[:order_by] == 'trending' ? "selected" : ""%> value="trending">Order By Trending</option>
+                        <option <%= params[:order_by] == 'likes' ? "selected" : ""%> value="likes">Order By Total Likes</option>
+                    </select>                   
+                </div>
+            </div>
+        </div>        
+    </div>
+</div>
