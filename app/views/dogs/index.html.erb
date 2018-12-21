@@ -1,25 +1,27 @@
-<style>
-    .main-carousel {
-        margin-bottom:45px;
-    }    
-</style>
-
 <script>
     $(function(){
         $('.special.cards .image').dimmer({
             on: 'hover'
         })
 
-        $('.main-carousel').flickity({
-            // options
-            contain: false
+        var ms = new Siema({
+            loop: true
         })
+
+        slides(ms)
 
         $('#sort_by').change(function(){
             window.location.href = 
                 window.location.href.split('?').shift() + '?order_by=' + $(this).val()
         })
     })   
+
+    function slides(ms){
+        setTimeout(function(){
+            ms.next()
+            slides(ms)
+        }, 1500)   
+    }
 
     function like(id) {
         $.ajax({ url: `dogs/like.json`,
@@ -35,9 +37,9 @@
 
 <div class="ui segments">
     <div class="ui segment">
-        <div class="main-carousel">
+        <div class="siema">
             <%= render partial: 'slide', collection: @slides, as: :dog %>
-        </div>
+        </div>    
     </div>
 
     <div class="ui segment secondary">

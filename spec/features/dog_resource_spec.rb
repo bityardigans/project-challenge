@@ -33,4 +33,28 @@ describe 'Dog resource', type: :feature do
     click_link "Delete #{dog.name}'s Profile"
     expect(Dog.count).to eq(0)
   end
+  
+  it 'cannot edit a dog profile that is not mine' do
+    dog = create(:dog)        
+    
+    visit edit_dog_path(dog)    
+
+    assert has_no_field?('Name')
+  end
+
+  it 'cannot delete a dog profile that is not mine' do
+    dog = create(:dog)        
+    
+    visit edit_dog_path(dog)    
+
+    assert has_no_button?("Delete #{dog.name}'s Profile")
+  end  
+
+  it 'cannot like my own dog' do
+    dog = create(:dog, user_id: user.id)        
+    
+    visit "/"
+
+    assert has_css?(".my-dog-likes")
+  end    
 end

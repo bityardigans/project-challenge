@@ -23,7 +23,7 @@
   <div class="extra content">      
     <% if !current_user || current_user.id != dog.user_id %>
       <div class="ui left labeled button" tabindex="0">
-        <a class="ui basic right pointing label">        
+        <a class="ui basic right pointing label total-likes">        
           <%= dog.likes_count ||= 0%>
         </a>
         <div class="ui button" onclick="like(<%= dog.id%>)">
@@ -31,7 +31,7 @@
         </div>
       </div>    
     <% else %>
-      <span class="left floated like">
+      <span class="left floated like my-dog-likes">
         <i class="like icon"></i>
         <%= dog.likes_count ||= 0%>
       </span>  
