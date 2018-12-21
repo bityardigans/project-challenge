@@ -41,8 +41,4 @@ View the site at http://localhost:3000
 
     Screenshots of this running in chrome are in the /screenshots folder
 
-    Credentials for the user I created are:
-    josh@bityard.co
-    test123
-
-    I used VSCode on Windows 10
+    Built with VSCode on Windows 10
